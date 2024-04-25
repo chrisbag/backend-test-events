@@ -2,7 +2,7 @@
 
 ## Scenario
 
-Welcome !
+🔥 Welcome !
 
 You have just been recruited by Bunji as a Backend Engineer.
 In order for the sales team to sign a deal with the biggest real estate network of France, we have been asked to
@@ -10,7 +10,7 @@ synchronize events between Bunji app and their Google calendar (two way sync).
 
 You voluntered to be the Lead Dev on this task
 
-## Goal
+## 🎯 Goal
 
 The goal is to be able to create a simplified two way calendar sync between :
 
@@ -22,7 +22,7 @@ The idea is to be ale to test your :
 - technical skills
 - code quality
 
-## Guidelines
+## 🗂️ Guidelines
 
 - You should use the Bunji dummy Node.js app as a starting Point (this repo)
 - you are free to add any library you deem neceessary
@@ -36,7 +36,7 @@ The idea is to be ale to test your :
 - no need to add any kind of database
 - you can add tests wherever if might think it necessary (not compulsory but appreciated)
 
-## Acceptation Criteria
+## ✅ Acceptation Criteria
 
 1. Synchronize Bunji events with Google Calendar
 
@@ -52,7 +52,7 @@ The idea is to be ale to test your :
 
 3. Copy code to your github (or other) repository, create new branch to code the feature and then submit a PR
 
-# Bunji Dummy App info
+# ❓ Bunji Dummy App info
 
 ## Installation
 
