@@ -63,7 +63,7 @@ export const getEvents = (req: Request, res: Response) => {
     total: events.length,
     totalPages: Math.ceil(events.length / limit),
     currentPage: page,
-    events: results,
+    data: results,
   });
 };
 

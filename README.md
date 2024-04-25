@@ -1,4 +1,4 @@
-# Backend Test Details
+# Backend Test
 
 ## Scenario
 
@@ -12,7 +12,7 @@ You voluntered to be the Lead Dev on this task
 
 ## Goal
 
-The goal is to be able to create a two way sync calendar sync between :
+The goal is to be able to create a simplified two way calendar sync between :
 
 - our dummy Bunji event app
 - a dummy simplfied Google Calendar API
@@ -24,7 +24,7 @@ The idea is to be ale to test your :
 
 ## Guidelines
 
-- You should use the Bunji dummy Node.js app as a starting Point
+- You should use the Bunji dummy Node.js app as a starting Point (this repo)
 - you are free to add any library you deem neceessary
 - here is the documentation for the dummy google calendar dummy api (it is protected by api token) : https://github.com/chrisbag/google-events-dummy
 - bear in mind that the bunji and google events models are slightly different
@@ -47,6 +47,8 @@ The idea is to be ale to test your :
 - [ ] when an event is created on Google Calendar, it should be added to the Bunji App
 - [ ] when an event is update on Google Calendar, it shoulld be added to Bunji app
 - [ ] when an event is deleted on the google calendar, it shoumd be deleted on Bunji App
+
+3. Copy code to your github (or other) repository, create new branch and then a PR
 
 # Bunji Dummy App info
 
