@@ -26,7 +26,7 @@ The idea is to be ale to test your :
 
 - You should use the Bunji dummy Node.js app as a starting Point
 - you are free to add any library you deem neceessary
-- here is the documentation for the dummy calendar dummy api (it is protected by api token)
+- here is the documentation for the dummy google calendar dummy api (it is protected by api token) : https://github.com/chrisbag/google-events-dummy
 - bear in mind that the bunji and google events models are slightly different
 - to simplify approach, ignore timzeones
 - feel free to add any required fields to the Bunji event or user models
@@ -35,15 +35,15 @@ The idea is to be ale to test your :
 
 1. Synchronize Bunji events with Google Calendar
 
-- [] when an event is created on Bunji, it should be added on the Google Calendar
-- [] when an event is updated on Bunji, it should be updated on the Google Calendar
-- [] when an event is delete on Bunji, it should be deleted on the google Calendar
+- [ ] when an event is created on Bunji, it should be added on the Google Calendar
+- [ ] when an event is updated on Bunji, it should be updated on the Google Calendar
+- [ ] when an event is delete on Bunji, it should be deleted on the google Calendar
 
 2. Synchronize Google Calendar events with Bunji events, supposing the Google Calendar API does not offer webhooks
 
-- [] when an event is created on Google Calendar, it should be added to the Bunji App
-- [] when an event is update on Google Calendar, it shoulld be added to Bunji app
-- [] when an event is deleted on the google calendar, it shoumd be deleted on Bunji App
+- [ ] when an event is created on Google Calendar, it should be added to the Bunji App
+- [ ] when an event is update on Google Calendar, it shoulld be added to Bunji app
+- [ ] when an event is deleted on the google calendar, it shoumd be deleted on Bunji App
 
 # Bunji Dummy App info
 
@@ -100,10 +100,19 @@ yarn start
 Events have the following fields:
 
 - id: Unique identifier for the event - string
-- idDone -
+- idDone - Indicates whether the event is completed or not - boolean
 - description: Description of the event - text | null
 - startAtDate: Start date of the event - text - YYYY-MM-DD
 - startAtTime: Start time of the event - text - HH:mm
 - endAtDate: End date of the event - text - YYYY-MM-DD
 - startAtTime: End time of the event - text - HH:mm
 - userId: Id of the user attached to the event - number (must be an exisiting user)
+
+### User Schema
+
+Users have the following fields:
+
+- id: Unique identifier for the user - number
+- firstName: firstname of the user - string
+- lastName: lastName of the user - string
+- googleId: googleId of the user - number
