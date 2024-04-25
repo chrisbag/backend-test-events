@@ -47,8 +47,8 @@ The idea is to be ale to test your :
 2. Synchronize Google Calendar events with Bunji events (suppose the google API does not offer webhooks)
 
 - [ ] when an event is created on Google Calendar, it should be added to the Bunji App
-- [ ] when an event is update on Google Calendar, it shoulld be added to Bunji app
-- [ ] when an event is deleted on the google calendar, it shoumd be deleted on Bunji App
+- [ ] when an event is update on Google Calendar, it should be added to Bunji app
+- [ ] when an event is deleted on the google calendar, it should be deleted on Bunji App
 
 3. Copy code to your github (or other) repository, create new branch to code the feature and then submit a PR
 
