@@ -50,7 +50,7 @@ The idea is to be ale to test your :
 - [ ] when an event is update on Google Calendar, it shoulld be added to Bunji app
 - [ ] when an event is deleted on the google calendar, it shoumd be deleted on Bunji App
 
-3. Copy code to your github (or other) repository, create new branch and then a PR
+3. Copy code to your github (or other) repository, create new branch to code the feature and then submit a PR
 
 # Bunji Dummy App info
 
