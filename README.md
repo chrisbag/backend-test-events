@@ -44,7 +44,7 @@ The idea is to be ale to test your :
 - [ ] when an event is updated on Bunji, it should be updated on the Google Calendar
 - [ ] when an event is delete on Bunji, it should be deleted on the google Calendar
 
-2. Synchronize Google Calendar events with Bunji events (the google API does not offer webhooks)
+2. Synchronize Google Calendar events with Bunji events (suppose the google API does not offer webhooks)
 
 - [ ] when an event is created on Google Calendar, it should be added to the Bunji App
 - [ ] when an event is update on Google Calendar, it shoulld be added to Bunji app
@@ -92,11 +92,11 @@ yarn start
 
 ### Routes
 
-- POST /events Create a new event.
-- GET /events Get all events.
-- GET /events/:id: Get a specific event by ID.
-- PATCH /events/:id: Update a specific event by ID.
-- DELETE /events/:id: Delete a specific event by ID.
+- POST /events - Create a new event.
+- GET /events - Get all events.
+- GET /events/:id - Get a specific event by ID.
+- PATCH /events/:id - Update a specific event by ID.
+- DELETE /events/:id - Delete a specific event by ID.
 
 ### Event Schema
 
