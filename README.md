@@ -29,9 +29,12 @@ The idea is to be ale to test your :
 - here is the documentation for the dummy google calendar dummy api (it is protected by api token) : https://github.com/chrisbag/google-events-dummy
 - bear in mind that the bunji and google events models are slightly different
 - to simplify approach, ignore timzeones
-- feel free to add any required fields to the Bunji event or user models
+- feel free to add any required fields to the Bunji event or user models but do not modify existing fields
+- events will have to be associated to the correct users.
+- you are free to refactor, modify the project structure accordingly
+- please add any relevant documentataion
 
-## Functionnalité minimale attendues
+## Acceptation Criteria
 
 1. Synchronize Bunji events with Google Calendar
 
@@ -39,7 +42,7 @@ The idea is to be ale to test your :
 - [ ] when an event is updated on Bunji, it should be updated on the Google Calendar
 - [ ] when an event is delete on Bunji, it should be deleted on the google Calendar
 
-2. Synchronize Google Calendar events with Bunji events, supposing the Google Calendar API does not offer webhooks
+2. Synchronize Google Calendar events with Bunji events (the google API does not offer webhooks)
 
 - [ ] when an event is created on Google Calendar, it should be added to the Bunji App
 - [ ] when an event is update on Google Calendar, it shoulld be added to Bunji app

@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "express": "^4.19.2",
-    "lodash": "^4.17.21",
     "uuid": "^9.0.1",
     "yup": "^1.4.0"
   },
