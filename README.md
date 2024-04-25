@@ -3,6 +3,7 @@
 ## Scenario
 
 Welcome !
+
 You have just been recruited by Bunji as a Backend Engineer.
 In order for the sales team to sign a deal with the biggest real estate network of France, we have been asked to
 synchronize events between Bunji app and their Google calendar (two way sync).
@@ -16,7 +17,7 @@ The goal is to be able to create a two way sync calendar sync between :
 - our dummy Bunji event app
 - a dummy simplfied Google Calendar API
 
-The idea is to be ale to test your
+The idea is to be ale to test your :
 
 - technical skills
 - code quality
@@ -33,19 +34,16 @@ The idea is to be ale to test your
 ## Functionnalité minimale attendues
 
 1. Synchronize Bunji events with Google Calendar
-   [] when an event is created on Bunji, it should be added on the Google Calendar
-   [] when an event is updated on Bunji, it should be updated on the Google Calendar
-   [] when an event is delete on Bunji, it should be deleted on the google Calendar
+
+- [] when an event is created on Bunji, it should be added on the Google Calendar
+- [] when an event is updated on Bunji, it should be updated on the Google Calendar
+- [] when an event is delete on Bunji, it should be deleted on the google Calendar
 
 2. Synchronize Google Calendar events with Bunji events, supposing the Google Calendar API does not offer webhooks
-   [] when an event is created on Google Calendar, it should be added to the Bunji App
-   [] when an event is update on Google Calendar, it shoulld be added to Bunji app
-   [] when an event is deleted on the google calendar, it shoumd be deleted on Bunji App
 
-3. Bonus : Synchronize Google Calendar events with
-   [] when an event is created on Google Calendar, it should be added to the Bunji App
-   [] when an event is update on Google Calendar, it shoulld be added to Bunji app
-   [] when an event is deleted on the google calendar, it shoumd be deleted on Bunji App
+- [] when an event is created on Google Calendar, it should be added to the Bunji App
+- [] when an event is update on Google Calendar, it shoulld be added to Bunji app
+- [] when an event is deleted on the google calendar, it shoumd be deleted on Bunji App
 
 # Bunji Dummy App info
 
