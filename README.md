@@ -25,7 +25,7 @@ The idea is to be ale to test your :
 ## 🗂️ Guidelines
 
 - You should use the Bunji dummy Node.js app as a starting Point (this repo)
-- you are free to add any library you deem neceessary
+- you are free to add any library you deem necessary
 - here is the documentation for the dummy google calendar dummy api (it is protected by api token) : https://github.com/chrisbag/google-events-dummy
 - bear in mind that the bunji and google events models are slightly different
 - to simplify approach, ignore timzeones
