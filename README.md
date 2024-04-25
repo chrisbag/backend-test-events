@@ -59,13 +59,13 @@ The idea is to be ale to test your :
 1. Clone the repository:
 
    ```
-   git clone https://github.com/chrisbag/google-events-dummy.git
+   git clone git clone https://github.com/chrisbag/backend-test-events
    ```
 
 2. Install dependencies
 
 ```
-   cd event-api
+   cd backend-test-events
    yarn install
 ```
 
