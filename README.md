@@ -32,7 +32,9 @@ The idea is to be ale to test your :
 - feel free to add any required fields to the Bunji event or user models but do not modify existing fields
 - events will have to be associated to the correct users.
 - you are free to refactor, modify the project structure accordingly
-- please add any relevant documentataion
+- please add any relevant documentation
+- no need to add any kind of database
+- you can add tests wherever if might think it necessary (not compulsory but appreciated)
 
 ## Acceptation Criteria
 

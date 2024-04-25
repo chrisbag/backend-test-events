@@ -50,7 +50,7 @@ export const defaultEvents: BunjiEvent[] = [
     startAtTime: "10:00",
     endAtDate: "2024-04-23",
     endAtTime: "15:30",
-    userId: 1,
+    userId: 2,
   },
   {
     id: uuidv4(),
