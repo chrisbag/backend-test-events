@@ -17,7 +17,7 @@ The goal is to be able to create a simplified two way calendar sync between :
 - our dummy Bunji event app
 - a dummy simplfied Google Calendar API
 
-The idea is to be ale to test your :
+The idea is to be able to test your :
 
 - technical skills
 - code quality
