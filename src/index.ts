@@ -3,7 +3,7 @@ import express from "express";
 import services from "./services";
 
 const app = express();
-const PORT = 3040;
+const PORT = 3041;
 
 // Middleware
 app.use(express.json());
