@@ -132,6 +132,13 @@ export const patchEvent = async (req: Request, res: Response) => {
 
 export const deleteEvent = (req: Request, res: Response) => {
   const eventId = req.params.id;
+
+	// should return a 404 status if event is not found
+	// const event = events.find((event) => event.id === eventId);
+	// if (!event) {
+	// 	res.status(404).json({ error: "Event not found" });
+	// }
+
   events = events.filter((event) => event.id !== eventId);
   res.sendStatus(204);
 };
