@@ -1,4 +1,5 @@
 import { object, string, number } from "yup";
+import { WebhookAction } from './types';
 
 const dateonly = string().test(
   "is-dateonly",
@@ -36,4 +37,16 @@ export const patchEventSchema = object().shape({
   endAtDate: dateonly.required(),
   endAtTime: timeOnly.required(),
   userId: number(),
+});
+
+// Validation schema for patching events
+export const callbackCallSchema = object().shape({
+  action: string().oneOf(Object.values(WebhookAction)).required(),
+	data: object({
+		id: string().required(),
+		description: string().nullable(),
+		startAt: string().datetime().required(),
+		endAt: string().datetime().required(),
+		ownerId: number().required()
+	})
 });
