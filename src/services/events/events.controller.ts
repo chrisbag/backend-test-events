@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
-import { BunjiEvent, GoogleEvent, WebhookAction } from './types';
-import { createEventSchema, patchEventSchema, callbackCallSchema } from './validation';
-import * as Helpers from '../users/helpers';
-import * as UsersService from '../users/service';
-import * as Service from './service';
+import { BunjiEvent, GoogleEvent, WebhookAction } from './events.types';
+import { createEventSchema, patchEventSchema, callbackCallSchema } from './events.validation';
+import * as Helpers from '../users/users.helpers';
+import * as UsersService from '../users/users.service';
+import * as EventsService from './events.service';
 import * as GoogleEventsService from './google-events.service';
 
 export const createEvent = async (req: Request, res: Response) => {
@@ -15,20 +15,10 @@ export const createEvent = async (req: Request, res: Response) => {
 			abortEarly: false,
 		});
 	} catch (error: any) {
-		return res
-				.status(400)
-				.json({ error: error.message, details: error.errors });
+		return res.status(400).json({ error: error.message, details: error.errors });
 	}
 
-	const {
-		description,
-		isDone,
-		startAtDate,
-		startAtTime,
-		endAtDate,
-		endAtTime,
-		userId,
-	} = req.body;
+	const { description, isDone, startAtDate, startAtTime, endAtDate, endAtTime, userId } = req.body;
 
 	if (!Helpers.isExistingUserId(userId)) {
 		return res.status(400).json({ error: 'User not found' });
@@ -45,11 +35,11 @@ export const createEvent = async (req: Request, res: Response) => {
 		userId,
 	};
 
-	Service.createEvent(newEvent);
+	EventsService.createEvent(newEvent);
 	try {
-		await Service.syncEventCreationWithGoogle(newEvent);
+		await EventsService.syncEventCreationWithGoogle(newEvent);
 	} catch (e: any) {
-		res.status(500).json({ error: e.message});
+		res.status(500).json({ error: e.message });
 	}
 
 	res.status(201).json(newEvent);
@@ -61,7 +51,7 @@ export const getEvents = (req: Request, res: Response) => {
 	const startIndex = (page - 1) * limit;
 	const endIndex = page * limit;
 
-	const allEvents = Service.getAllEvents();
+	const allEvents = EventsService.getAllEvents();
 	const results = allEvents.slice(startIndex, endIndex);
 
 	res.json({
@@ -74,7 +64,7 @@ export const getEvents = (req: Request, res: Response) => {
 
 export const getEvent = async (req: Request, res: Response) => {
 	const eventId = req.params.id;
-	const event = Service.getEventById(eventId);
+	const event = EventsService.getEventById(eventId);
 	if (event) {
 		res.json(event);
 	} else {
@@ -93,26 +83,17 @@ export const patchEvent = async (req: Request, res: Response) => {
 	} catch (error: any) {
 		console.log(error);
 
-		return res
-				.status(400)
-				.json({ error: error.message, details: error.errors });
+		return res.status(400).json({ error: error.message, details: error.errors });
 	}
 
-	const {
-		description,
-		isDone,
-		startAtDate,
-		startAtTime,
-		endAtDate,
-		endAtDateTime,
-		userId,
-	} = req.body;
+	const { description, isDone, startAtDate, startAtTime, endAtDate, endAtDateTime, userId } =
+		req.body;
 
 	if (userId && !Helpers.isExistingUserId(userId)) {
 		return res.status(400).json({ error: 'User not found' });
 	}
 
-	const existingEvent = Service.getEventById(eventId);
+	const existingEvent = EventsService.getEventById(eventId);
 
 	if (existingEvent) {
 		// Update fields
@@ -127,11 +108,11 @@ export const patchEvent = async (req: Request, res: Response) => {
 			userId: userId || existingEvent.userId,
 		};
 
-		Service.updateEvent(updatedEvent);
+		EventsService.updateEvent(updatedEvent);
 		try {
-			await Service.syncEventPatchWithGoogle(updatedEvent, existingEvent);
+			await EventsService.syncEventPatchWithGoogle(updatedEvent, existingEvent);
 		} catch (e: any) {
-			res.status(500).json({ error: e.message});
+			res.status(500).json({ error: e.message });
 		}
 
 		return res.json(updatedEvent);
@@ -144,17 +125,17 @@ export const deleteEvent = async (req: Request, res: Response) => {
 	const eventId = req.params.id;
 
 	// should return a 404 status if event is not found
-	const eventToDelete = Service.getEventById(eventId);
+	const eventToDelete = EventsService.getEventById(eventId);
 	if (!eventToDelete) {
 		res.status(404).json({ error: 'Event not found' });
 		return;
 	}
 
-	Service.deleteEventById(eventId);
+	EventsService.deleteEventById(eventId);
 	try {
-		await Service.syncEventDeleteWithGoogle(eventToDelete);
+		await EventsService.syncEventDeleteWithGoogle(eventToDelete);
 	} catch (e: any) {
-		res.status(500).json({ error: e.message});
+		res.status(500).json({ error: e.message });
 	}
 	res.sendStatus(204);
 };
@@ -173,9 +154,7 @@ export const handleCallback = async (req: Request, res: Response) => {
 		});
 	} catch (error: any) {
 		console.log(error);
-		return res
-				.status(400)
-				.json({ error: error.message, details: error.errors });
+		return res.status(400).json({ error: error.message, details: error.errors });
 	}
 
 	const action: WebhookAction = req.body.action;
@@ -188,7 +167,7 @@ export const handleCallback = async (req: Request, res: Response) => {
 		return res.status(404).json({ error });
 	}
 
-	const existingBunjiEvent = Service.getEventByGoogleId(googleEvent.id);
+	const existingBunjiEvent = EventsService.getEventByGoogleId(googleEvent.id);
 	if (action === WebhookAction.CREATE && existingBunjiEvent) {
 		const error = `Event already exists with Google ID ${googleEvent.id}, found event with ID ${existingBunjiEvent.id}`;
 		console.error(error);
@@ -201,25 +180,30 @@ export const handleCallback = async (req: Request, res: Response) => {
 		return res.status(404).json({ error });
 	}
 
-	console.info(`Treating callback to ${action} event ${googleEvent.id} (Google ID). User ${eventUser.id} (${eventUser.firstName}).`);
+	console.info(
+		`Treating callback to ${action} event ${googleEvent.id} (Google ID). User ${eventUser.id} (${eventUser.firstName}).`,
+	);
 
 	if (action === WebhookAction.DELETE) {
 		if (existingBunjiEvent) {
-			Service.deleteEventById(existingBunjiEvent.id);
+			EventsService.deleteEventById(existingBunjiEvent.id);
 		}
 		return res.sendStatus(200);
 	}
-	const event = GoogleEventsService.mapGoogleEventToBunjiEvent(googleEvent, eventUser.id, existingBunjiEvent);
+	const event = GoogleEventsService.mapGoogleEventToBunjiEvent(
+		googleEvent,
+		eventUser.id,
+		existingBunjiEvent,
+	);
 
 	switch (action) {
 		case WebhookAction.CREATE:
-			Service.createEvent(event);
+			EventsService.createEvent(event);
 			break;
 		case WebhookAction.PATCH:
-			console.log(event)
-			Service.updateEvent(event);
+			console.log(event);
+			EventsService.updateEvent(event);
 			break;
-
 	}
 
 	res.sendStatus(200);

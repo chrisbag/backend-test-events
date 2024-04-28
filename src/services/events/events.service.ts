@@ -1,9 +1,7 @@
-import { defaultEvents } from './data';
-import { BunjiEvent } from './types';
+import { defaultEvents } from './events.data';
+import { BunjiEvent } from './events.types';
 import * as GoogleEventsClient from '../../clients/google-events.client';
 import * as GoogleEventsService from './google-events.service';
-import { createGoogleEvent } from '../../clients/google-events.client';
-
 
 // In-memory storage for events
 let events = defaultEvents;
@@ -52,7 +50,9 @@ export const deleteAllEventsByGoogleId = (eventGoogleId: string) => {
 };
 
 export const syncEventCreationWithGoogle = async (newEvent: BunjiEvent) => {
-	const createdGoogleEvent = await GoogleEventsClient.createGoogleEvent(GoogleEventsService.mapBunjiEventToGoogleEvent(newEvent));
+	const createdGoogleEvent = await GoogleEventsClient.createGoogleEvent(
+		GoogleEventsService.mapBunjiEventToGoogleEvent(newEvent),
+	);
 	if (!createdGoogleEvent || !createdGoogleEvent.id) {
 		// If sync fail we revert the action
 		deleteEventById(newEvent.id);
@@ -61,11 +61,20 @@ export const syncEventCreationWithGoogle = async (newEvent: BunjiEvent) => {
 	// We remove all events created by webhooks in the meantime
 	deleteAllEventsByGoogleId(createdGoogleEvent.id);
 	addGoogleIdToExistingEvent(newEvent.id, createdGoogleEvent.id);
-	console.debug(`Event ${newEvent.id} created in Google Events with ID ${createdGoogleEvent.id} there`);
+	console.debug(
+		`Event ${newEvent.id} created in Google Events with ID ${createdGoogleEvent.id} there`,
+	);
 };
 
-export const syncEventPatchWithGoogle = async (updatedEvent: BunjiEvent, previousEvent: BunjiEvent) => {
-	if (!await GoogleEventsClient.patchGoogleEvent(GoogleEventsService.mapBunjiEventToGoogleEvent(updatedEvent))) {
+export const syncEventPatchWithGoogle = async (
+	updatedEvent: BunjiEvent,
+	previousEvent: BunjiEvent,
+) => {
+	if (
+		!(await GoogleEventsClient.patchGoogleEvent(
+			GoogleEventsService.mapBunjiEventToGoogleEvent(updatedEvent),
+		))
+	) {
 		// If sync fail we revert the action
 		updateEvent(previousEvent);
 		throw new Error('Sync error');
@@ -74,12 +83,14 @@ export const syncEventPatchWithGoogle = async (updatedEvent: BunjiEvent, previou
 };
 
 export const syncEventDeleteWithGoogle = async (eventToDelete: BunjiEvent) => {
-	if (!await GoogleEventsClient.deleteGoogleEvent(eventToDelete.googleId)) {
+	if (!(await GoogleEventsClient.deleteGoogleEvent(eventToDelete.googleId))) {
 		// If sync fail we revert the action
 		createEvent(eventToDelete);
 		throw new Error(`Sync error`);
 	}
-	console.debug(`Event ${eventToDelete.id} deleted in Google Events with id ${eventToDelete.googleId} there.`);
+	console.debug(
+		`Event ${eventToDelete.id} deleted in Google Events with id ${eventToDelete.googleId} there.`,
+	);
 };
 
 export const initialSync = async () => {

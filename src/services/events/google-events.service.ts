@@ -1,24 +1,28 @@
-import { GoogleEvent, BunjiEvent } from './types';
-import * as UsersService from '../users/service';
-import * as Helpers from '../users/helpers';
+import { GoogleEvent, BunjiEvent } from './events.types';
+import * as UsersService from '../users/users.service';
+import * as Helpers from '../users/users.helpers';
 import { v4 as uuidv4 } from 'uuid';
 
 export const mapBunjiEventToGoogleEvent = (bunjiEvent: BunjiEvent): GoogleEvent => {
 	let ownerId = UsersService.getUserById(bunjiEvent.userId)?.googleId;
-	if(!ownerId) {
+	if (!ownerId) {
 		throw new Error(`User not found with id ${bunjiEvent.userId} or ownerId is missing`);
 	}
 
 	return {
 		id: bunjiEvent.googleId,
 		startAt: `${bunjiEvent.startAtDate}T${bunjiEvent.startAtTime}:00Z`, // Create events at GTM+0 by default
-		endAt: `${bunjiEvent.endAtDate}T${bunjiEvent.endAtTime}:00Z`,// Create events at GTM+0 by default
+		endAt: `${bunjiEvent.endAtDate}T${bunjiEvent.endAtTime}:00Z`, // Create events at GTM+0 by default
 		description: bunjiEvent.description,
-		ownerId
-	}
-}
+		ownerId,
+	};
+};
 
-export function mapGoogleEventToBunjiEvent(googleEvent: GoogleEvent, userId: number, existingBunjiEvent?: BunjiEvent) {
+export function mapGoogleEventToBunjiEvent(
+	googleEvent: GoogleEvent,
+	userId: number,
+	existingBunjiEvent?: BunjiEvent,
+) {
 	const startAtDate = Helpers.getDatePartFromDate(googleEvent.startAt);
 	const startAtTime = Helpers.getTimePartFromDate(googleEvent.startAt);
 	const endAtDate = Helpers.getDatePartFromDate(googleEvent.endAt);

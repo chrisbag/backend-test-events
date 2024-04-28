@@ -1,4 +1,4 @@
-import { users } from './controller';
+import { users } from './users.controller';
 
 export function getUserById(userId: number) {
 	return users.find((user) => user.id === userId);

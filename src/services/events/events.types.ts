@@ -1,20 +1,20 @@
 // Interface for Event
 export interface BunjiEvent {
-  id: string;
-  isDone: boolean;
-  description: string | null;
-  startAtDate: string;
-  startAtTime: string;
-  endAtDate: string;
-  endAtTime: string;
-  userId: number;
+	id: string;
+	isDone: boolean;
+	description: string | null;
+	startAtDate: string;
+	startAtTime: string;
+	endAtDate: string;
+	endAtTime: string;
+	userId: number;
 	googleId?: string;
 }
 
-export enum  WebhookAction {
+export enum WebhookAction {
 	CREATE = 'create',
-	PATCH="patch",
-	DELETE="delete"
+	PATCH = 'patch',
+	DELETE = 'delete',
 }
 
 export interface GoogleEvent {
