@@ -1,6 +1,6 @@
-import { User } from './users.types';
+import { UserEntity } from '../models/users.models';
 
-export const defaultUsers: User[] = [
+export const defaultUsers: UserEntity[] = [
 	{
 		id: 1,
 		firstName: 'Christopher',

@@ -1,7 +1,7 @@
-import { BunjiEvent } from './events.types';
 import { v4 as uuidv4 } from 'uuid';
+import { BunjiEventEntity } from '../models/events.models';
 
-export const defaultEvents: BunjiEvent[] = [
+export const defaultEvents: BunjiEventEntity[] = [
 	{
 		id: '44e2f7a3-bebe-459f-a019-afbe1241b9d3',
 		isDone: false,

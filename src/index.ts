@@ -1,36 +1,14 @@
-import express from 'express';
+import { Container, N9Log, safeStringify } from '@neo9/n9-node-routing';
 
-import services from './services';
-import { initialiseWebhook } from './clients/google-events.client';
-import { initialSync } from './services/events/events.service';
+import { start } from './start';
 
-export async function start() {
-	const app = express();
-	const PORT = 3041;
-
-	// Middleware
-	app.use(express.json());
-
-	// Configures services
-	services(app);
-
-	await initialSync();
-	await initialiseWebhook();
-	console.log(`Webhook setup done`);
-	// Start the server
-	const server = app.listen(PORT, () => {
-		console.log(`Server is running on port ${PORT}`);
-	});
-	return { server };
-}
-
-if (process.env.NODE_ENV !== 'test') {
-	start()
-		.then(() => {
-			console.log(`Startup successful`);
-		})
-		.catch((error) => {
-			console.log(`Startup failed`, error);
-			process.exit(1);
+start()
+	.then(() => {
+		Container.get(N9Log).info('Startup successful');
+	})
+	.catch((e) => {
+		(Container.has(N9Log) ? Container.get(N9Log) : console).error(`Error on launch : `, {
+			errString: safeStringify(e),
 		});
-}
+		throw e;
+	});

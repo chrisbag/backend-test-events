@@ -1,14 +1,14 @@
 import { beforeEach, describe, expect, test, afterEach } from '@jest/globals';
-import { googleEventsPrefixUrl } from '../src/clients/google-events.client';
-import nock from 'nock';
-import { start } from '../src';
+import { start } from '../src/start';
 import got from 'got';
 import { v4 as uuidv4 } from 'uuid';
 import { Server } from 'http';
-import { BunjiEvent } from '../src/services/events/events.types';
+import { BunjiEventEntity } from '../src/modules/models/events.models';
+import conf from '../src/conf/application';
+import nock = require('nock');
 
 const clientHttpToTestEventsApi = got.extend({
-	prefixUrl: 'http://localhost:3041',
+	prefixUrl: 'http://localhost:6666',
 });
 
 const context: Partial<{
@@ -16,12 +16,18 @@ const context: Partial<{
 }> = {};
 
 beforeEach(async () => {
-	nock(googleEventsPrefixUrl)
+	nock(conf.googleEvents.baseUrl)
 		.post('/events')
 		.reply(200, () => ({ id: `FAKE-GOOGLE-EVENT-ID-${uuidv4()}` }))
 		.persist();
-	nock(googleEventsPrefixUrl).post('/webhooks').reply(200).persist();
-	context.server = (await start()).server;
+	nock(conf.googleEvents.baseUrl).post('/webhooks').reply(200).persist();
+	context.server = (await start({
+		n9NodeRoutingOptions: {
+			prometheus: {
+				isEnabled: false
+			}
+		}
+	})).server;
 });
 
 afterEach(async () => {
@@ -48,7 +54,7 @@ describe('Should be able to list base events', () => {
 			endAtTime: '10:00',
 			userId: 1,
 		};
-		const createdEvent: BunjiEvent = await clientHttpToTestEventsApi
+		const createdEvent: BunjiEventEntity = await clientHttpToTestEventsApi
 			.post('events', {
 				json: eventToCreate,
 			})
