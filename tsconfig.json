@@ -1,12 +1,19 @@
 {
-    "compilerOptions": {
-      "target": "es2017",
-      "module": "commonjs",
-      "strict": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "outDir": "./dist", // Output directory for compiled JavaScript files
-      "rootDir": "./src" // Root directory for TypeScript source files
-    }
-  }
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@tsconfig/node20/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "declaration": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "strict": false,
+    "esModuleInterop": true,
+    "useDefineForClassFields": false
+  },
+  "include": ["src"],
+  "exclude": []
+}

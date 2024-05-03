@@ -1,0 +1,681 @@
+{
+	"info": {
+		"_postman_id": "6064d27a-b93c-4691-baf0-61a077b3b1fd",
+		"name": "Test Tech",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "417085"
+	},
+	"item": [
+		{
+			"name": "test-events",
+			"item": [
+				{
+					"name": "events",
+					"item": [
+						{
+							"name": "events",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var template = `",
+											"<table class=\"tftable\" border=\"1\">",
+											"    <tr>",
+											"        <th>ID</th>",
+											"        <th>Is Done</th>",
+											"        <th>Description</th>",
+											"        <th>Start Date</th>",
+											"        <th>Start Time</th>",
+											"        <th>End Date</th>",
+											"        <th>End Time</th>",
+											"        <th>User ID</th>",
+											"        <th>Googe ID</th>",
+											"    </tr>",
+											"    ",
+											"    {{#each response.data}}",
+											"        <tr>",
+											"            <td>{{id}}</td>",
+											"            <td>{{isDone}}</td>",
+											"            <td>{{description}}</td>",
+											"            <td>{{startAtDate}}</td>",
+											"            <td>{{startAtTime}}</td>",
+											"            <td>{{endAtDate}}</td>",
+											"            <td>{{endAtTime}}</td>",
+											"            <td>{{userId}}</td>",
+											"            <td>{{googleId}}</td>",
+											"        </tr>",
+											"    {{/each}}",
+											"</table>",
+											"<div>",
+											"  total: {{response.total}} <br />",
+											"  totalPages: {{response.totalPages}}  <br />",
+											"  currentPage: {{response.currentPage}}  <br />",
+											"</div>",
+											"`;",
+											"",
+											"function constructVisualizerPayload() {",
+											"    return { response: pm.response.json() }",
+											"}",
+											"",
+											"pm.visualizer.set(template, constructVisualizerPayload());"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host-test-events}}/events",
+									"host": ["{{host-test-events}}"],
+									"path": ["events"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "events 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [""],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host-test-events}}/events/{{event-id-test}}",
+									"host": ["{{host-test-events}}"],
+									"path": ["events", "{{event-id-test}}"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create event for user 1 (Chris)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"  pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Your test name\", function () {",
+											"  const jsonData = pm.response.json();",
+											"  pm.expect(jsonData.id).to.not.be.empty;",
+											"",
+											"  pm.environment.set('g_event-user-1-id', jsonData.id)",
+											"  pm.environment.set('g_google-event-user-1-id', jsonData.googleId)",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"isDone\": false,\n  \"description\": \"Stand-up Daily Meeting\",\n  \"startAtDate\": \"2024-05-22\",\n  \"startAtTime\": \"09:00\",\n  \"endAtDate\": \"2024-05-22\",\n  \"endAtTime\": \"10:00\",\n  \"userId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host-test-events}}/events",
+									"host": ["{{host-test-events}}"],
+									"path": ["events"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch created event",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response is successful for status code 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"isDone\": true,\n  \"description\": \"Stand-up Daily Meeting updated\",\n  \"startAtDate\": \"2024-05-22\",\n  \"startAtTime\": \"09:00\",\n  \"endAtDate\": \"2024-05-22\",\n  \"endAtTime\": \"10:00\",\n  \"userId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host-test-events}}/events/{{g_event-user-1-id}}",
+									"host": ["{{host-test-events}}"],
+									"path": ["events", "{{g_event-user-1-id}}"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete created event",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response is successful for status code 204\", () => {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host-test-events}}/events/{{g_event-user-1-id}}",
+									"host": ["{{host-test-events}}"],
+									"path": ["events", "{{g_event-user-1-id}}"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Call callback without data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"  pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host-test-events}}/events/callback/google-events",
+									"host": ["{{host-test-events}}"],
+									"path": ["events", "callback", "google-events"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Call callback creation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [""],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"action\": \"create\",\n  \"data\": {\n    \"id\": \"12fd7bdc-f462-4378-8465-4c92ccb5ed3f\",\n    \"description\": \"Stand-up Daily Meeting\",\n    \"startAt\": \"2024-05-21T09:00:00Z\",\n    \"endAt\": \"2024-05-22T10:00:00Z\",\n    \"ownerId\": 1131\n  }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host-test-events}}/events/callback/google-events",
+									"host": ["{{host-test-events}}"],
+									"path": ["events", "callback", "google-events"]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var template = `",
+											"",
+											"<table class=\"tftable\" border=\"1\">",
+											"    <tr>",
+											"        <th>ID</th>",
+											"        <th>First Name</th>",
+											"        <th>Last Name</th>",
+											"        <th>Google ID</th>",
+											"    </tr>",
+											"    ",
+											"    {{#each response.data}}",
+											"        <tr>",
+											"            <td>{{id}}</td>",
+											"            <td>{{firstName}}</td>",
+											"            <td>{{lastName}}</td>",
+											"            <td>{{googleId}}</td>",
+											"        </tr>",
+											"    {{/each}}",
+											"</table>",
+											"<div>",
+											"  total: {{response.total}}",
+											"</div>",
+											"`;",
+											"",
+											"function constructVisualizerPayload() {",
+											"    return {response: pm.response.json()}",
+											"}",
+											"",
+											"pm.visualizer.set(template, constructVisualizerPayload());"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host-test-events}}/users",
+									"host": ["{{host-test-events}}"],
+									"path": ["users"]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "google-events",
+			"item": [
+				{
+					"name": "events",
+					"item": [
+						{
+							"name": "events",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var template = `",
+											"<table class=\"tftable\" border=\"1\">",
+											"    <tr>",
+											"        <th>ID</th>",
+											"        <th>Description</th>",
+											"        <th>Start Date</th>",
+											"        <th>End Date</th>",
+											"        <th>Google user ID</th>",
+											"    </tr>",
+											"    ",
+											"    {{#each response.data}}",
+											"        <tr>",
+											"            <td>{{id}}</td>",
+											"            <td>{{description}}</td>",
+											"            <td>{{startAt}}</td>",
+											"            <td>{{endAt}}</td>",
+											"            <td>{{ownerId}}</td>",
+											"        </tr>",
+											"    {{/each}}",
+											"</table>",
+											"<div>",
+											"  total: {{response.total}} <br />",
+											"  totalPages: {{response.totalPages}}  <br />",
+											"  currentPage: {{response.currentPage}}  <br />",
+											"</div>",
+											"`;",
+											"",
+											"function constructVisualizerPayload() {",
+											"    return { response: pm.response.json() }",
+											"}",
+											"",
+											"pm.visualizer.set(template, constructVisualizerPayload());"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host-google-events}}/events",
+									"host": ["{{host-google-events}}"],
+									"path": ["events"],
+									"query": [
+										{
+											"key": "page",
+											"value": "2",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "events 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [""],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host-google-events}}/events/{{google-event-id-test}}",
+									"host": ["{{host-google-events}}"],
+									"path": ["events", "{{google-event-id-test}}"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create event for user 1 (Chris)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"  pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Your test name\", function () {",
+											"  const jsonData = pm.response.json();",
+											"  pm.expect(jsonData.id).to.not.be.empty;",
+											"",
+											"  pm.environment.set('g_google-event-user-1-id', jsonData.id)",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"isDone\": false,\n  \"description\": \"Stand-up Daily Meeting\",\n  \"startAt\": \"2024-05-21T09:00:00Z\",\n  \"endAt\": \"2024-05-22T10:00:00Z\",\n  \"ownerId\": 1131\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host-google-events}}/events",
+									"host": ["{{host-google-events}}"],
+									"path": ["events"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch created event",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response is successful for status code 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"isDone\": true,\n  \"description\": \"Stand-up Daily Meeting updated using Google Events API\",\n  \"startAt\": \"2024-05-21T09:00:00Z\",\n  \"endAt\": \"2024-05-22T10:00:00Z\",\n  \"ownerId\": 1131\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host-google-events}}/events/{{g_google-event-user-1-id}}",
+									"host": ["{{host-google-events}}"],
+									"path": ["events", "{{g_google-event-user-1-id}}"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete created event",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response is successful for status code 204\", () => {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host-google-events}}/events/{{g_google-event-user-1-id}}",
+									"host": ["{{host-google-events}}"],
+									"path": ["events", "{{g_google-event-user-1-id}}"]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "webhooks",
+					"item": [
+						{
+							"name": "get all",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var template = `",
+											"<table class=\"tftable\" border=\"1\">",
+											"    <tr>",
+											"        <th>ID</th>",
+											"        <th>Url</th>",
+											"    </tr>",
+											"    ",
+											"    {{#each response.data}}",
+											"        <tr>",
+											"            <td>{{id}}</td>",
+											"            <td>{{url}}</td>",
+											"        </tr>",
+											"    {{/each}}",
+											"</table>",
+											"<div>",
+											"  total: {{response.total}} <br />",
+											"</div>",
+											"`;",
+											"",
+											"function constructVisualizerPayload() {",
+											"    return { response: pm.response.json() }",
+											"}",
+											"",
+											"pm.visualizer.set(template, constructVisualizerPayload());"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host-google-events}}/webhooks",
+									"host": ["{{host-google-events}}"],
+									"path": ["webhooks"],
+									"query": [
+										{
+											"key": "page",
+											"value": "0",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create one",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"  pm.response.to.have.status(201);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"url\": \"{{host-test-events}}/events/callback/google-events\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host-google-events}}/webhooks",
+									"host": ["{{host-google-events}}"],
+									"path": ["webhooks"]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "{{google-events-api-key}}",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "api-key",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [""]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [""]
+					}
+				}
+			]
+		}
+	]
+}

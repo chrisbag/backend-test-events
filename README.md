@@ -40,15 +40,15 @@ The idea is to be able to test your :
 
 1. Synchronize Bunji events with Google Calendar
 
-- [ ] when an event is created on Bunji, it should be added on the Google Calendar
-- [ ] when an event is updated on Bunji, it should be updated on the Google Calendar
-- [ ] when an event is delete on Bunji, it should be deleted on the google Calendar
+- [x] when an event is created on Bunji, it should be added on the Google Calendar
+- [x] when an event is updated on Bunji, it should be updated on the Google Calendar
+- [x] when an event is delete on Bunji, it should be deleted on the google Calendar
 
 2. Synchronize Google Calendar events with Bunji events (suppose the google API does not offer webhooks)
 
-- [ ] when an event is created on Google Calendar, it should be added to the Bunji App
-- [ ] when an event is update on Google Calendar, it should be added to Bunji app
-- [ ] when an event is deleted on the google calendar, it should be deleted on Bunji App
+- [x] when an event is created on Google Calendar, it should be added to the Bunji App
+- [x] when an event is update on Google Calendar, it should be added to Bunji app
+- [x] when an event is deleted on the google calendar, it should be deleted on Bunji App
 
 3. Copy code to your github (or other) repository, create new branch to code the feature and then submit a PR
 
@@ -78,6 +78,23 @@ To run the application in development mode, use the following command:
 ```
 yarn dev
 ```
+
+Format code with :
+
+```
+yarn format
+```
+
+### Tests
+
+To run tests locally, you can use script test
+
+```
+yarn test
+```
+
+With watch mode : `yarn test:watch`
+With coverage report : `yarn test:coverage`
 
 ### Production
 
@@ -110,6 +127,7 @@ Events have the following fields:
 - endAtDate: End date of the event - text - YYYY-MM-DD
 - startAtTime: End time of the event - text - HH:mm
 - userId: Id of the user attached to the event - number (must be an exisiting user)
+- googleId: Id in google events referential - string
 
 ### User Schema
 

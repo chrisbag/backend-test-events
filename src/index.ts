@@ -1,17 +1,14 @@
-import express from "express";
+import { Container, N9Log, safeStringify } from '@neo9/n9-node-routing';
 
-import services from "./services";
+import { start } from './start';
 
-const app = express();
-const PORT = 3040;
-
-// Middleware
-app.use(express.json());
-
-// Configures services
-services(app);
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+start()
+	.then(() => {
+		Container.get(N9Log).info('Startup successful');
+	})
+	.catch((e) => {
+		(Container.has(N9Log) ? Container.get(N9Log) : console).error(`Error on launch : `, {
+			errString: safeStringify(e),
+		});
+		throw e;
+	});
